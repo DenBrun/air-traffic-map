@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planes map</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <div class="header__container">
+          <h1 class="header__title">Realtime sky traffic</h1>
+        </div>
+      </header>
+
+      <div id="map"></div>
+
+      <div class="select-forms">
+        <select id="select-planes">
+          <option value="all">All flags aircrafts</option>
+        </select>
+      </div>
+
+      <div class="countries-chart">
+        <div class="countries-chart__container">
+          <canvas id="planeByCountriesChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMVX9Y9tsw_I_FjVAxc4hfDBkNTfyz8UQ&libraries=visualization&callback=initMap"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </body>
+</html>
