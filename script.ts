@@ -145,6 +145,7 @@ const updatePlanesSelect = (): void => {
 
 // TODO: Fix UK and GB
 
+// test
 
 flagsSelect.addEventListener('change', (event) => {
   let select = event.target as HTMLSelectElement;
