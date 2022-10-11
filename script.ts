@@ -88,6 +88,9 @@ const createHeatmap = (data): void => {
   for (const plane of data.response) {
     points.push(new google.maps.LatLng(plane.lat, plane.lng));
     if (plane.flag) {
+      if (plane.flag == "UK" || plane.flag == "GB") {
+        plane.flag = "GB&flag=UK"
+      }
       if (plane.flag in planesByFlag) {
         planesByFlag[plane.flag] += 1;
       } else {
@@ -145,9 +148,6 @@ const updatePlanesSelect = (): void => {
 
 // TODO: Fix UK and GB
 
-// test 2
-
-// test 3
 
 flagsSelect.addEventListener('change', (event) => {
   let select = event.target as HTMLSelectElement;
