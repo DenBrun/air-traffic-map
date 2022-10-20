@@ -29,13 +29,6 @@ let gradient = [
 
 ];
 
-// setTimeout(() => {
-// fetch('./data/country-codes.json')
-//   .then((response) => response.json())
-//   .then((json) => countryCodes = json);
-// }, 2000)
-
-
 
 fetch('./data/country-codes.json')
     .then((response) => response.json())
@@ -45,8 +38,9 @@ fetch('./data/country-codes.json')
 function initMap() {
     console.log("Archibaldo Eduardo2");
     map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 3.1,
-        center: { lat: 33.749374, lng: -26.451329 },
+        zoom: 3,
+        center: { lat: 33.749374, lng: 10.451329 },
+        // center: { lat: 30, lng: 0 },
         mapId: "abdf9465a5f0e4c7",
     });
 
@@ -70,9 +64,9 @@ function initMap() {
 function getPoints(specialFlag = null) {
     let url;
     if (specialFlag && specialFlag != 'all') {
-        url = `https://airlabs.co/api/v9/flights?api_key=b2b4091f-292e-4cb2-b92c-005161695af3&flag=${specialFlag}`;
+        url = `https://airlabs.co/api/v9/flights?api_key=8acc5d02-45ec-4547-ac4c-fc53fd8724d1&flag=${specialFlag}`;
     } else {
-        url = "https://airlabs.co/api/v9/flights?api_key=b2b4091f-292e-4cb2-b92c-005161695af3";
+        url = "https://airlabs.co/api/v9/flights?api_key=8acc5d02-45ec-4547-ac4c-fc53fd8724d1";
     }
 
 
@@ -140,26 +134,32 @@ flagsSelect.addEventListener('change', (event) => {
     getPoints(select.value);
 })
 
-
-
-window.initMap = initMap;
-
+// window.initMap = initMap;
 
 const loadChart = () => {
-
-    let width = window.screen.width;
+    let width = window.innerWidth;
     let showOptions = 7;
 
-    if (width <= 768) {
+    if (width <= 350) {
+        showOptions = 3;
+    }
+    else if (width <= 500) {
+        showOptions = 4;
+    }
+    else if (width <= 672) {
+        showOptions = 5;
+    }
+    else if (width <= 768) {
         showOptions = 6;
     }
 
     let allFlags = Object.keys(planesByFlag);
     allFlags.sort((flag_a, flag_b) => planesByFlag[flag_b] - planesByFlag[flag_a]);
+
     const flags = allFlags.slice(0, showOptions);
 
     let labels = flags.map(flagCode => countryCodes.filter(country => country.code == flagCode)[0].name);
-    let planeNnumbers = flags.map(flagCode => planesByFlag[flagCode])
+    let planeNumbers = allFlags.slice(0, 7).map(flagCode => planesByFlag[flagCode])
 
     const data = {
         labels: labels,
@@ -167,7 +167,7 @@ const loadChart = () => {
             axis: 'y',
             label: 'Planes by the flag',
             backgroundColor: 'rgba(66, 25, 148, 1)',
-            data: planeNnumbers,
+            data: planeNumbers,
             inflateAmount: -3,
             borderRadius: 3,
             hoverBackgroundColor: 'rgba(109, 56, 214, 0.8)'
@@ -185,7 +185,6 @@ const loadChart = () => {
                 deferred: {
                     xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
                     yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
-                    // delay: 0      // delay of 500 ms after the canvas is considered inside the viewport
                 }
             },
             transitions: {
@@ -202,14 +201,7 @@ const loadChart = () => {
                             to: 0
                         },
                     }
-                },
-                // resize: {
-                //     animations: {
-                //         x: {
-                //             from: 0
-                //         }
-                //     }
-                // }
+                }
             },
             animations: {
                 y: { duration: 0 }
@@ -217,8 +209,6 @@ const loadChart = () => {
 
         }
     };
-
-    // if (chart) chart.destroy();
 
     chart = new Chart(
         document.getElementById('planeByCountriesChart'),
@@ -228,10 +218,15 @@ const loadChart = () => {
 
 const updateLegend = () => {
     let width = window.innerWidth;
-    // console.log(width);
     let showOptions = 7;
 
-    if (width <= 672) {
+    if (width <= 350) {
+        showOptions = 3;
+    }
+    else if (width <= 500) {
+        showOptions = 4;
+    }
+    else if (width <= 672) {
         showOptions = 5;
     }
     else if (width <= 768) {
@@ -243,9 +238,7 @@ const updateLegend = () => {
     const flags = allFlags.slice(0, showOptions);
 
     let labels = flags.map(flagCode => countryCodes.filter(country => country.code == flagCode)[0].name);
-    let planeNnumbers = flags.map(flagCode => planesByFlag[flagCode])
 
-    chart.data.datasets.data = planeNnumbers;
     chart.data.labels = labels;
     chart.update();
 }
