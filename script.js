@@ -36,7 +36,6 @@ fetch('./data/country-codes.json')
 
 
 function initMap() {
-    console.log("Archibaldo Eduardo2");
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 3,
         center: { lat: 33.749374, lng: 10.451329 },
@@ -51,11 +50,7 @@ function initMap() {
             heatmap.set("gradient", gradient);
         }
     })
-
-
     getPoints();
-    console.log(planesByFlag);
-
 }
 
 
